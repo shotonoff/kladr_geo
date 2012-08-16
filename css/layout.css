@@ -1,0 +1,16 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: Arial;
+}
+
+a, a:link, a:visited, a:active {
+    color: #0678BE;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
