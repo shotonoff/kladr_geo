@@ -91,24 +91,3 @@ unset($cities[0]);
 
 $GLOBALS['view']['cities'] = $cities;
 $GLOBALS['view']['state']['area'] = $repo->getArea($city->getCode("REGIONCODE"), $city->getCode("AREACODE"));
-
-if (isset($_REQUEST['migration']) && $_REQUEST['migration'] == '1') {
-    $conn = $em->getConnection();
-    $conn->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-
-    $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
-
-    $classes = array(
-        $em->getClassMetadata('Entities\GeoLocation'),
-        $em->getClassMetadata('Entities\UserLocation'),
-        $em->getClassMetadata('Entities\Socrbase'),
-//        $em->getClassMetadata('Entities\Altnames'),
-        $em->getClassMetadata('Entities\Doma'),
-//        $em->getClassMetadata('Entities\Flat'),
-        $em->getClassMetadata('Entities\Kladr'),
-        $em->getClassMetadata('Entities\Street')
-    );
-//    $tool->dropSchema($classes);
-//    $tool->createSchema($classes);
-    $tool->updateSchema($classes);
-}
