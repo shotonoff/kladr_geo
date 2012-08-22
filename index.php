@@ -1,19 +1,12 @@
 <?
-defined("ROOT_PATH") || define("ROOT_PATH", $_SERVER['DOCUMENT_ROOT']);
-
-set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH . DIRECTORY_SEPARATOR . "vendors");
-
-$view = array();
-
 require "Autoloader.php";
 Autoloader::RegisterAutoloader();
 require "run.php";
-
 ?>
 <!doctype html>
 <html>
 <head>
-    <title>Geo Z-Payment</title>
+    <title>geo kladr</title>
     <meta charset=utf-8>
 
     <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
@@ -43,31 +36,6 @@ require "run.php";
     </script>
 </head>
 <body>
-<style type="text/css">
-    .geo-select {
-        /*float: left;*/
-    }
-
-    #loading {
-        display: none;
-    }
-
-    .ac_results ul {
-        background-color: white;
-        border: 1px solid #CCC;
-    }
-
-    .ac_results ul li {
-        padding-left: 5px;
-        margin-left: 0px;
-        list-style-type: none;
-    }
-
-    .ac_results ul li.ac_over {
-        background-color: #ccc;
-    }
-</style>
-
 <div class="wrapper">
     <header>
         <div class="container_12"></div>
@@ -75,12 +43,11 @@ require "run.php";
 
     <div id="page" class="container_12">
         <div id="zpaymnet-map" style="width: 100%; height: 400px;"></div>
-        <p>
-
-        <div>IP Страна: <?=$geoLocationEntity->getCountry()?></div>
-        <div>IP Регион: <?=$geoLocationEntity->getRegion()?></div>
-        <div>IP Город: <?=$geoLocationEntity->getCity()?></div>
-        </p>
+        <div>
+            <div>IP Страна: <?=$geoLocationEntity->getCountry()?></div>
+            <div>IP Регион: <?=$geoLocationEntity->getRegion()?></div>
+            <div>IP Город: <?=$geoLocationEntity->getCity()?></div>
+        </div>
         <form method="post">
             <div>
                 <label>Укажите ваше место расположение</label>
@@ -91,14 +58,13 @@ require "run.php";
                 <? else: ?>
                 <input size="100" name="location" value=""/>
                 <?endif?>
-                <?/*Иркутск, Румянцева улица, 26*/?>
                 <input name="btn-search" type="button" value="показать на карте"/>
             </div>
         </form>
 
         <?/* * * * * * * * * * * * * * * * * */?>
 
-        <br/><br/><br/>
+        <br/><br/>
         <hr/>
 
         <div class="autobox">
@@ -108,15 +74,6 @@ require "run.php";
                         <option value="0">Россия</option>
                     </select>
                 </div>
-                <?/*?>
-                <div class="geo-select wrap-administrative-area">
-                    <select name="administartive-area">
-                        <option value="0">Москва</option>
-                        <option value="1">Иркутск</option>
-                        <option value="2">Санкт-Петербург</option>
-                    </select>
-                </div>
-                <?*/?>
                 <div class="geo-select wrap-REGIONCODE">
                     <select name="REGIONCODE">
                         <option value="0">Выберите регион</option>
@@ -211,12 +168,6 @@ require "run.php";
                     <div class="calc-response"></div>
                 </form>
             </div>
-        </div>
-
-        <div>
-            <script type="text/javascript" src="http://app.ecwid.com/script.js?1445034" charset="utf-8"></script>
-            <script type="text/javascript"> xProductBrowser("categoriesPerRow=3","views=grid(3,3) list(10) table(20)","categoryView=grid","searchView=list","style="); </script>
-            <noscript>Ваш браузер не поддерживает JavaScript. Пожалуйста, перейдите на <a href="http://app.ecwid.com/jsp/1445034/catalog">HTML версию Голубев Дмитрий Евгеньевич's store</a></noscript>
         </div>
 
     </div>
