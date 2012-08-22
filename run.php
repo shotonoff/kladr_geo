@@ -1,8 +1,11 @@
 <?
+defined("ROOT_PATH") || define("ROOT_PATH", $_SERVER['DOCUMENT_ROOT']);
+set_include_path(ROOT_PATH . PATH_SEPARATOR . ROOT_PATH . DIRECTORY_SEPARATOR . "vendors");
 require ROOT_PATH . DIRECTORY_SEPARATOR . "Geo" . DIRECTORY_SEPARATOR . "common.php";
 require ROOT_PATH . DIRECTORY_SEPARATOR . "Test.php";
-
 defined("BaseUrl") || define("BaseUrl", "/");
+
+$view = array();
 
 class Env
 {

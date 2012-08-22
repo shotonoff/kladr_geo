@@ -1,5 +1,25 @@
 /** reference initialize.js */
-$(function () {
+ZPayment.AutocompleteParams = {
+    focusElement:null,
+    street:{
+        type:'street',
+        cacheItems:[],
+        selectCode:null
+    },
+    home:{
+        type:'home',
+        cacheItems:[],
+        selectCode:null
+    },
+    zip:{
+        type:'zip',
+        cacheItems:[],
+        selectCode:null
+    }
+};
+
+var client = function () {
+
     ymaps.ready(function () {
         var button = new ymaps.control.Button({
             data:{
@@ -7,33 +27,29 @@ $(function () {
                 title:'Укажите ваше место'
             }
         });
-        ZPayment.Map.controls.add(button, {top:5, right:5});
-
-        ZPayment.Map.controls.add("typeSelector");
-
-        ZPayment.Map.events.add('click', function (e) {
-            if (button.isSelected()) {
-                button.deselect();
-
-                ZPayment.Map.geoObjects.remove(ZPayment.Location);
-                ZPayment.Location = new ymaps.Placemark(e.get("coordPosition"));
-                ZPayment.Map.geoObjects.add(ZPayment.Location);
-                ZPayment.geosearch(e.get("coordPosition")).then(
-                    function (res) {
-                        if (res.GeoObjectCollection.featureMember.length > 0)
-                            $("[name=location]").val(res.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text);
-                    }
-                );
-            }
-        });
-
+        if (ZPayment.Map != null && ZPayment.Map instanceof ymaps.Map) {
+            ZPayment.Map.controls.add(button, {bottom:5, left:5});
+            ZPayment.Map.controls.add("typeSelector");
+            ZPayment.Map.events.add('click', function (e) {
+                if (button.isSelected()) {
+                    button.deselect();
+                    ZPayment.Map.geoObjects.remove(ZPayment.Location);
+                    ZPayment.Location = new ymaps.Placemark(e.get("coordPosition"));
+                    ZPayment.Map.geoObjects.add(ZPayment.Location);
+                    ZPayment.geosearch(e.get("coordPosition")).then(
+                        function (res) {
+                            if (res.GeoObjectCollection.featureMember.length > 0)
+                                $("[name=location]").val(res.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text);
+                        }
+                    );
+                }
+            });
+        }
         if ($("[name=location]").val() != '')
             $("[name=btn-search]").trigger('click');
-
     });
 
     $("[name=btn-search]").on('click', function (e) {
-
         var searchStr = $("[name=location]").val().split(" ").join("+");
         var myGeocoder = ymaps.geocode(
             searchStr, {
@@ -52,30 +68,6 @@ $(function () {
         );
     });
 
-    $("#loading").ajaxStart(function () {
-        $(this).show();
-    }).ajaxStop(function () {
-            $(this).hide();
-        });
-
-    ZPayment.AutocompleteParams = {
-        focusElement:null,
-        street:{
-            type:'street',
-            cacheItems:[],
-            selectCode:null
-        },
-        home:{
-            type:'home',
-            cacheItems:[],
-            selectCode:null
-        },
-        zip:{
-            type:'zip',
-            cacheItems:[],
-            selectCode:null
-        }
-    };
 
     var o = $(".autobox").autoboxselect({url:'autobox.php', completeCallback:function (e) {
 //      var geolocation = new Array('Россия');
@@ -89,9 +81,9 @@ $(function () {
     }).autocomplete('autocomlete.php', {
             delay:10,
             width:300,
-            zIndex:9999,
+            zIndex:99999999,
             dataType:"json",
-            max: 99,
+            max:99,
             extraParams:{
                 type:function () {
                     return ZPayment.AutocompleteParams[ZPayment.AutocompleteParams.focusElement.attr('name')].type;
@@ -157,6 +149,10 @@ $(function () {
         }
     });
 
+}
+
+$(function () {
+    client();
 });
 
 $.fn.autoboxselect = function (_options) {
@@ -177,7 +173,6 @@ $.fn.autoboxselect = function (_options) {
                     if (!response instanceof Array) {
                         response = [response];
                     }
-
                     for (var i = 0; i < response.length; i++)
                         self.find(response[i].wrapElement).html(response[i].view);
                     options.completeCallback.call(this, e);
@@ -215,30 +210,4 @@ $.fn.autoboxselect = function (_options) {
         throw "метод не может принимать такое значение  " + method;
 
     return methods[method].call(this);
-}
-
-var autocomplete = function () {
-
-}
-
-$.fn.kaldr_autocomplete = function (options) {
-    var dfr = $.Deferred();
-    dfr.done(function (e) {
-        $.ajax({
-            url:options.url,
-            dataType:options.dataType
-
-        });
-    });
-
-    options = $.extend({
-        success:function () {
-        },
-        error:function () {
-        }
-    }, options);
-
-    $(this).keypress(function (e) {
-        dfr.resolve();
-    });
 }

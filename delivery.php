@@ -1,10 +1,7 @@
 <?php
-defined("ROOT_PATH") || define("ROOT_PATH", $_SERVER['DOCUMENT_ROOT']);
-set_include_path(ROOT_PATH . PATH_SEPARATOR . ROOT_PATH . DIRECTORY_SEPARATOR . "vendors");
 require "Autoloader.php";
 Autoloader::RegisterAutoloader();
 require "run.php";
-
 
 /** @var $locationFrom \Entities\UserLocation */
 $locationFrom = \Env::$em->find("\Entities\UserLocation", "ZP00000001");

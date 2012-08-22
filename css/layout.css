@@ -14,3 +14,48 @@ a, a:link, a:visited, a:active {
 a:hover {
     text-decoration: underline;
 }
+
+#loading {
+    display: none;
+}
+
+.ac_results {
+    z-index: 9999999;
+}
+.ac_results ul {
+    background-color: white;
+    border: 1px solid #CCC;
+}
+
+.ac_results ul li {
+    padding-left: 5px;
+    margin-left: 0px;
+    list-style-type: none;
+}
+
+.ac_results ul li.ac_over {
+    background-color: #ccc;
+}
+
+.geo-select {
+    /*float: left;*/
+}
+
+#loading {
+    display: none;
+}
+
+.ac_results ul {
+    background-color: white;
+    border: 1px solid #CCC;
+}
+
+.ac_results ul li {
+    padding-left: 5px;
+    margin-left: 0px;
+    list-style-type: none;
+}
+
+.ac_results ul li.ac_over {
+    background-color: #ccc;
+}
